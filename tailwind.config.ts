@@ -8,9 +8,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontSize: {
+        "2xl": "5rem",
+      },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: " rgba(var(--background)) ",
+        text: " rgba(var(--text)) ",
+        purple: " rgba(var(--purple)) ",
+        btntext: " rgba(var(--btntext)) ",
+        navbackground: " rgba(var(--navbackground)) ",
       },
     },
   },

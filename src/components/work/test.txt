@@ -1,0 +1,83 @@
+import React, { useEffect, useRef } from "react";
+import Card from "../card";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { workData } from "@/constants";
+import { WorkDataType } from "@/utils/types";
+const Test = () => {
+  const arr = [1, 2, 3, 4];
+  const sectionRef = useRef<HTMLDivElement|null>(null)
+  const triggerRef = useRef<HTMLDivElement|null>(null)
+  gsap.registerPlugin(ScrollTrigger)
+  useEffect(() => {
+    const horizontalGsapPin = ()=>{
+      const sectionPin= sectionRef.current
+      const sectiontrigger = triggerRef.current
+      if (sectionPin  && window) {
+        const scrollWidth =
+          sectionPin.scrollWidth - document.documentElement.clientWidth + 40;
+        const pin = gsap.fromTo(
+          sectionPin,
+          {
+            translateX: 20,
+          },
+          {
+            ease: "none",
+            duration: 1,
+            scrollTrigger: {
+              trigger: sectiontrigger,
+              start: "top top",
+              end: () => "+=" + scrollWidth,
+              scrub: true,
+              pin: true,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+            },
+            x: () => -scrollWidth,
+          }
+        );
+      }
+    }
+    horizontalGsapPin()
+    const handleRefresh = () => {
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener("resize", handleRefresh);
+    return()=>{
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      window.removeEventListener("resize", handleRefresh);
+    }
+  },[])
+  return (
+    <div>
+      <h1>MyWork</h1>
+      <div className="overflow-hidden">
+        <div ref={triggerRef}>
+          <div
+            className="h-[100vh] flex flex-row gap-5 relative items-center"
+            ref={sectionRef}
+          >
+            <div className="w-96 bg-black">
+              <h3 className="text-[5rem]">Work</h3>
+              <p className="text-[2rem]">
+                A selection of our crafted work, built from scratch by our
+                talented team.
+              </p>
+            </div>
+            {workData.map((item: WorkDataType, i) => (
+              <div key={i} className="flex-shrink-0">
+                <Card
+                  image={item.image}
+                  title={item.title}
+                  stack={item.stack}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Test;
