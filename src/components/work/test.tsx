@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { workData } from "@/constants";
 import { WorkDataType } from "@/utils/types";
+import CountAnimation from "../animation/counanimation";
 
 const Test = () => {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -65,7 +66,8 @@ const Test = () => {
             <div className="w-[30rem] flex-shrink-0">
               <h3 className="text-[5rem]">Work</h3>
               <p className="text-[2rem]">
-                A selection of my crafted work, built from scratch by the talented wonder boy himself.
+                A selection of my crafted work, built from scratch by the
+                talented wonder boy himself.
               </p>
             </div>
             {workData.map((item: WorkDataType, i) => (
@@ -77,6 +79,7 @@ const Test = () => {
                 />
               </div>
             ))}
+            <CountAnimation from={0} to={100} />
           </div>
         </div>
       </div>
